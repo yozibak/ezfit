@@ -1,17 +1,24 @@
 from rest_framework import serializers
 from rest_framework import permissions
 
-from .models import Weight
+from .models import Weight, Food
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-
+'''WEIGHT'''
 class WeightSerializer(serializers.ModelSerializer):
     permission_classes = [permissions.IsAuthenticated]
 
     class Meta:
         model = Weight
         fields = ['pk', 'date', 'kg', 'user']
+
+class FoodSerializer(serializers.ModelSerializer):
+    permission_classes = [permissions.IsAuthenticated]
+
+    class Meta:
+        model = Food
+        fields = ['pk', 'menu', 'date', 'protein', 'fat', 'carbon', 'fiber', 'user']
 
 
 '''USER'''

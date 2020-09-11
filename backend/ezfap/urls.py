@@ -8,6 +8,7 @@ from .views import UserAPIView, RegisterAPIView, LoginAPIView
 
 urlpatterns = [
     path('api/weight/', views.weight_list),
+    path('api/food/', views.food_list),
 
     path('api/auth/', include('knox.urls')),
     path('api/auth/user', UserAPIView.as_view()),

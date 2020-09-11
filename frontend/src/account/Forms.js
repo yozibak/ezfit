@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row, Form, FormGroup, Label, Input } from "reactstrap";
+import { Col, Form, FormGroup, Label, Input } from "reactstrap";
 import PropTypes from 'prop-types';
 
 export class LoginForm extends React.Component {

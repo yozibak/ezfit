@@ -1,15 +1,18 @@
 import React, { Fragment } from 'react';
-import { Col, Container, Row } from "reactstrap";
+import 'bootstrap/dist/css/bootstrap.css';
+
 import './App.css';
 
 import Auth from './account/Auth';
 import Weight from  './components/Weight';
+import Food from  './components/Food';
 
 function App() {
   return (
     <Fragment>
       <Auth />
       <Weight />
+      <Food />
     </Fragment>
   );
 }

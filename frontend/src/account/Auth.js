@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Col, Container, Row, Form, FormGroup, Label, Input } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import axios from "axios";
 import Navi from './Navi';
 import {reqhead, token} from "../axiosDefault"
@@ -64,7 +64,6 @@ class Auth extends Component {
 
     handle_logout = () => {
         localStorage.removeItem("token");
-        console.log(this.state);
         this.setState({ logged_in: false, username: '' });
         window.location.reload();
     };

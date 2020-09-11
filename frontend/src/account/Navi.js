@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
+import { Row } from 'reactstrap';
 
 function Navi(props) {
   const logged_out_nav = (
-    <div>
-      <Button color="link" onClick={() => props.display_form('login')}>login</Button>
-      <Button color="link" onClick={() => props.display_form('signup')}>signup</Button>
-    </div>
-      
+    <Row>
+      <div class="btn" role="button" onClick={() => props.display_form('login')}>login</div>
+      <div class="btn" role="button" onClick={() => props.display_form('signup')}>signup</div>
+    </Row>
   );
 
   const logged_in_nav = (
     <div>
-      <Button color="link" onClick={props.handle_logout}>logout</Button>
+      <div class="btn" role="button" onClick={props.handle_logout}>logout</div>
     </div>
   );
   return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;

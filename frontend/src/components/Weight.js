@@ -1,19 +1,24 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Col, Container, Row, Form, FormGroup, Label, Input } from "reactstrap";
-import {reqhead, token} from "../axiosDefault"
-import { WEIGHT_URL } from "../constants";
+import {token} from "../axiosDefault"
+import { WEIGHT_URL, TodayString, generateSample } from "../constants";
 import CSRFToken from '../constants/GetCookie';
 import PropTypes from 'prop-types';
 
 import "react-vis/dist/style.css";
-import {XYPlot, XAxis, YAxis, MarkSeries, Hint, LineMarkSeries, makeWidthFlexible,} from 'react-vis';
+import {XYPlot, XAxis, YAxis, MarkSeries, LineMarkSeries, makeWidthFlexible,} from 'react-vis';
 
 
 class Weight extends Component {
     constructor(props){
         super(props);
-        this.state = {weights: []}; //default data?
+        this.state = {
+            weights: [],
+            playmode: false,
+            demo: {}
+        }; 
+        this.handleDemoChange = this.handleDemoChange.bind(this);
     }
 
     componentDidMount() {
@@ -24,21 +29,30 @@ class Weight extends Component {
         axios.get(
             WEIGHT_URL,
             token
-        ).then(res => this.setState({ weights: res.data }));
-    }
+        ).then(res => this.setState({ weights: res.data })
+        ).catch(err => {
+            this.setState({ playmode: true });
+        })
+    };
 
     resetState = () => {
         this.getWeights();
     }
 
+    handleDemoChange(value){
+        this.setState({demo: {x:TodayString, y:value}});
+    }
+
     render(){
         return(
-            <Container>
+            <Container style={{ marginTop: "10px" }}>
                 <Row>
                     <Col>
                         <WeightChart 
                         weights={this.state.weights} 
                         resetState={this.resetState} 
+                        playmode={this.state.playmode} 
+                        demo={this.state.demo}
                         />
                     </Col>
                 </Row>
@@ -46,6 +60,8 @@ class Weight extends Component {
                     <Col>
                         <WeightInput 
                         resetState={this.resetState}
+                        playmode={this.state.playmode}
+                        handleDemoChange={this.handleDemoChange}
                         />
                     </Col>
                 </Row>
@@ -57,7 +73,9 @@ class Weight extends Component {
 const Plot = ({ width, data, axis})  => 
     <XYPlot xType="ordinal" height={250} width={width} >
               <XAxis       
-                title="date" />
+                title="date" 
+                tickValues = {[]}
+                />
               <YAxis 
                 tickValues={[40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]}
                 title="kg" />
@@ -70,79 +88,31 @@ const Plot = ({ width, data, axis})  =>
             
 
 Plot.propTypes = { width: PropTypes.number, measurements: PropTypes.array }
-Plot.displayName = 'TimeSeriesLineChartPlot'
+Plot.displayName = 'RADAR'
 const FlexibleXYPlot = makeWidthFlexible(Plot)
 
 class WeightChart extends Component {
   render () {
     let weights = this.props.weights;
-    const data  = weights.map(weight => (
+    let data = [];
+    if (this.props.playmode) {
+        let d = this.props.demo;
+        data = generateSample();
+        if( Object.keys(d).length >0 ){
+            data.push(d);
+        }
+    }else{data = weights.map(weight => (
         {x: weight.date, y: weight.kg}
     ));
-    let axis = weights.map(weight => (
-        {x: weight.date, y: 55 } //min tick
-    )); //default value neededd. if not data, return tutorial.
+    }
+    let axis = [
+        {x: TodayString, y: 55 },
+        {x: TodayString, y: 70 },
+    ]
     return (
       <FlexibleXYPlot data={data} axis={axis}/>
     )
   }
-}
-
-/*
-class WeightChart extends Component {
-    render() {        
-        let weights = this.props.weights;
-        let data = weights.map(weight => (
-            {x: weight.date, y: weight.kg}
-        ));
-        let axis = weights.map(weight => (
-            {x: weight.date, y: 45 } //min tick
-        ));
-        //const axis = [{x: data[0].date, y: 45},{x: data[0].date, y: 70},];
-        const FlexibleXYPlot = makeWidthFlexible(XYPlot); 
-
-        return (
-          <div className="App">
-            <XYPlot xType="ordinal" height={300} width={1000} >
-              <XAxis       
-                title="date" />
-              <YAxis 
-                tickValues={[40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100]}
-                title="kg" />
-              <LineSeries data={data} color="1" />
-              <MarkSeries 
-              data={axis} 
-              style={{ display: 'none' }} />
-            </XYPlot>
-          </div>
-        );
-      }
-}
-*/
-
-
-class WeightTable extends Component {
-    render(){
-        const weights = this.props.weights;
-        return(
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Weight</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {weights.map(weight => (
-                        <tr key = {weight.pk}>
-                            <td>{weight.date}</td>
-                            <td>{weight.kg}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        );
-    }
 }
 
 
@@ -161,14 +131,20 @@ class WeightInput extends Component{
 
     createWeight = e => {
         e.preventDefault();
-        axios.post(
-            WEIGHT_URL, 
-            this.state,
-            token
-        ).then(() => {
-            this.props.resetState();
-            this.setState({kg: ""}); //ugly?
-        });
+        if (this.props.playmode) {
+            let v=this.state.kg;
+            this.props.handleDemoChange(v);
+            this.setState({kg: ""});
+        }else{
+            axios.post(
+                WEIGHT_URL, 
+                this.state,
+                token
+            ).then(() => {
+                this.props.resetState();
+                this.setState({kg: ""}); 
+            });
+        }
     };
 
     onChange = e => {
@@ -180,8 +156,8 @@ class WeightInput extends Component{
             <Form onSubmit={this.createWeight}>
                 <CSRFToken />
                 <FormGroup row>
-                    <Label for="kg" sm={2}>{new Date().toDateString()}</Label>
-                    <Col sm={10}>
+                    <Label for="kg" sm={3} style={{textAlign: 'center'}}>{new Date().toDateString()}</Label>
+                    <Col sm={9}>
                     <Input id="kg" type="number" step='0.1' value={this.state.kg} onChange={this.onChange} placeholder="Weight(kg)"/>
                     </Col>
                 </FormGroup>
