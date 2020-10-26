@@ -38,10 +38,10 @@ const FoodView = ({foods}) => {
     if(foods.length > 0){
         todayFoods = foods.filter(food => food.date === TodayString)
         const reducer = (acc, cur) => acc + cur
-        p = todayFoods.map(food => food.protein).reduce(reducer)
-        f = todayFoods.map(food => food.fat).reduce(reducer)
-        c = todayFoods.map(food => food.carbon).reduce(reducer)
-        fib = todayFoods.map(food => food.fiber).reduce(reducer)    
+        p = todayFoods.map(food => food.protein).reduce(reducer,0)
+        f = todayFoods.map(food => food.fat).reduce(reducer,0)
+        c = todayFoods.map(food => food.carbon).reduce(reducer,0)
+        fib = todayFoods.map(food => food.fiber).reduce(reducer,0)    
     }
     let todaySum = { P: p, F:f, C:c, Fib: fib }
     let cal = p*4 + f*9 + c*4
@@ -68,12 +68,7 @@ const FoodGraph = ({data}) => {
           {name: 'Fib', domain: [0, 45]}  
         ]
       }
-    return(
-        <FlexibleRadar 
-        data={RADAR_PROPS.data}
-        domains={RADAR_PROPS.domains}
-        />
-    )
+    return <FlexibleRadar data={RADAR_PROPS.data} domains={RADAR_PROPS.domains} />
 }
 
 const Radar = ({width, data, domains}) => 
