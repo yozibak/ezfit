@@ -3,9 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import './App.css';
 
-import Auth from './account/Auth';
-import Weight from  './components/Weight';
-import Food from  './components/Food';
+import {Auth} from './components/Auth';
+import {Weight} from  './components/Weight';
+import {Food} from  './components/Food';
+
 
 function App() {
   return (
