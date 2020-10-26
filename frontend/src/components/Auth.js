@@ -17,13 +17,13 @@ export const Auth = () => {
 
     const handleLoginSignup = (e, data, api) => {
         e.preventDefault()
-        console.log(data)
         axios.post(api, JSON.stringify(data), reqhead)
         .then(res =>{
             localStorage.setItem('token', res.data.token)
             setLoggedIn(true)
-            setUsername(res.data.user.username) //?
+            setUsername(res.data.user.username)
             setDisplay('')
+            window.location.reload()
         })
     }
 
@@ -88,13 +88,11 @@ const LoginSignupForm = ({display, handler}) => {
             const newFormValue = {...formValue}
             newFormValue[name] = value
             return newFormValue
-        }
+            }
         )
-        console.log(formValue)
     }
     
     const submitForm = e => {
-        console.log(formValue)
         if (display ==='login'){
             handler(e, {username: formValue.username, password: formValue.password}, LOGIN_URL)
         }else if(display ==='signup'){

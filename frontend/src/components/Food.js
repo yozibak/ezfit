@@ -20,7 +20,6 @@ export const Food = () => {
         axios.get(FOOD_URL, token())
         .then(res => {
             setFoods(res.data)
-            console.log('getfoods()', foods)
         })
     }
 
@@ -36,7 +35,6 @@ export const Food = () => {
 const FoodView = ({foods}) => {
     let todayFoods
     let p=0,f=0,c=0,fib=0
-    console.log(foods.length)
     if(foods.length > 0){
         todayFoods = foods.filter(food => food.date === TodayString)
         const reducer = (acc, cur) => acc + cur
@@ -44,7 +42,6 @@ const FoodView = ({foods}) => {
         f = todayFoods.map(food => food.fat).reduce(reducer)
         c = todayFoods.map(food => food.carbon).reduce(reducer)
         fib = todayFoods.map(food => food.fiber).reduce(reducer)    
-        console.log('daaaaaaaaaaaaa')
     }
     let todaySum = { P: p, F:f, C:c, Fib: fib }
     let cal = p*4 + f*9 + c*4
@@ -62,7 +59,6 @@ const FoodView = ({foods}) => {
 
 
 const FoodGraph = ({data}) => {
-    console.log(data)
     const RADAR_PROPS={
         data: [data],
         domains: [
@@ -72,7 +68,6 @@ const FoodGraph = ({data}) => {
           {name: 'Fib', domain: [0, 45]}  
         ]
       }
-    console.log(RADAR_PROPS)
     return(
         <FlexibleRadar 
         data={RADAR_PROPS.data}
@@ -110,7 +105,6 @@ const FoodPanel = (props) => {
 
     const todaySum = () => {
         if(foods){
-            console.log(data)
             let n =`P:${data.P}, F:${data.F}, C:${data.C}, Fib:${data.Fib} \n\n`;
             let f = foods.map(food => food.menu).join('\n')
             return n+f;
