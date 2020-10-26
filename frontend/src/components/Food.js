@@ -1,9 +1,9 @@
-import React, { Component, useState, useEffect} from "react";
+import React, { useState, useEffect} from "react";
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.css';
 import { Col, Container, Row, Form, FormGroup, Button, Input} from "reactstrap";
 import {token} from "../constants/axiosDefault"
-import { FOOD_URL, TodayString, sampleFoods } from "../constants";
+import { FOOD_URL, TodayString } from "../constants";
 
 import PropTypes from 'prop-types';
 

@@ -1,8 +1,8 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Col, Container, Row, Form, FormGroup, Label, Input } from "reactstrap";
 import {token} from "../constants/axiosDefault"
-import { WEIGHT_URL, TodayString, generateSample } from "../constants";
+import { WEIGHT_URL, TodayString } from "../constants";
 import PropTypes from 'prop-types';
 
 import "react-vis/dist/style.css";

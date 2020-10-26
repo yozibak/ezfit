@@ -1,5 +1,6 @@
-// change when deploying
-export const API_URL = "http://localhost:8000/api/";
+// switch when deploying
+//export const API_URL = "http://localhost:8000/api/"
+export const API_URL = "http://ezfit.xyz/api/"
 
 export const WEIGHT_URL = new URL('weight/', API_URL)
 export const FOOD_URL = new URL('food/', API_URL)
