@@ -35,6 +35,7 @@ export const Weight = () => {
 
 const WeightInput = ({getWeights}) => {
     const [weight, setWeight] = useState('')
+    
     const createWeight = e =>{
         e.preventDefault()
         axios.post(
@@ -44,16 +45,12 @@ const WeightInput = ({getWeights}) => {
         ).then(() => {getWeights()})
     }
 
-    const onChange = e => {
-        setWeight(e.target.value)
-    }
-
     return (
         <Form onSubmit={createWeight}>
             <FormGroup row>
                 <Label for="kg" sm={3} style={{textAlign: 'center'}}>{new Date().toDateString()}</Label>
                 <Col sm={9}>
-                <Input id="kg" type="number" step='0.1' value={weight} onChange={onChange} placeholder="Weight(kg)"/>
+                <Input id="kg" type="number" step='0.1' value={weight} onChange={e => setWeight(e.target.value)} placeholder="Weight(kg)"/>
                 </Col>
             </FormGroup>
         </Form>
