@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import axios from "axios"
 import {reqhead, token} from "../constants/axiosDefault"
 import { LOGIN_URL, SIGNUP_URL, AUTH_URL } from "../constants"
-import { Container, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
 
 export const Auth = () => {
     const [display, setDisplay ] = useState('') // switch form
@@ -35,41 +34,39 @@ export const Auth = () => {
     }
 
     return (
-        <Container style={{ marginTop: "20px" }}>
-            <Row>
-                <Col　xs="3">
-                <legend>EZFIT</legend>
-                <p>{logged_in ? ` @${username}` : ''}</p>
-                </Col>
-                <Col>
-                    <LoginSignupForm display={display} handler={handleLoginSignup} />
-                </Col>
-                <Col　xs="3">
-                <Navi
-                    logged_in={logged_in}
-                    setDisplay={setDisplay}
-                    handleLogout={handleLogout}
-                    />
-                </Col>
-            </Row>
-        </Container>   
+        <div>
+            <legend>EZFIT</legend>
+            <p>{logged_in ? ` @${username}` : ''}</p>
+            <LoginSignupForm display={display} handler={handleLoginSignup} />
+            <Navi
+                logged_in={logged_in}
+                setDisplay={setDisplay}
+                handleLogout={handleLogout}
+                />
+        </div>           
     )
 }
 
 
 const Navi = props => {
+
+    const navClick = (mode) => {
+        props.setDisplay(mode)
+        document.getElementById("logged-out-nav").style.display = "none"
+    }
+
     const logged_out_nav = (
-        <Row>
-          <div class="btn" role="button" onClick={() => props.setDisplay('login')}>login</div>
-          <div class="btn" role="button" onClick={() => props.setDisplay('signup')}>signup</div>
-        </Row>
-      );
+        <div id="logged-out-nav">
+          <div className="btn" role="button" onClick={() => navClick('login')}>login</div>
+          <div className="btn" role="button" onClick={() => navClick('signup')}>signup</div>
+        </div>
+      )
     
       const logged_in_nav = (
-        <div>
-          <div class="btn" role="button" onClick={props.handleLogout}>logout</div>
+        <div id="logged-in-nav">
+          <div className="btn" role="button" onClick={props.handleLogout}>logout</div>
         </div>
-      );
+      )
       return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;   
 }
 
@@ -101,81 +98,21 @@ const LoginSignupForm = ({display, handler}) => {
     }
     
     if(display==='login'){
-        return(
-            <Form onSubmit={e => submitForm(e)}>
-              <FormGroup>
-              <Col>
-              <Label>Log In</Label>
-              <Input
-                type="text"
-                name="username"
-                placeholder="username"
-                value={formValue.username}
-                onChange={handleChange}
-              />
-              </Col>
-              </FormGroup>
-              <FormGroup>
-              <Col>
-              <Input
-                type="password"
-                name="password"
-                placeholder="password"
-                value={formValue.password}
-                onChange={handleChange}
-              />
-              </Col>
-              </FormGroup>
-              <FormGroup>
-              <Col>
-              <Input type="submit" />
-              </Col>
-              </FormGroup>
-            </Form>
+        return(            
+            <form onSubmit={e => submitForm(e)}>
+                <input type="text" name="username" placeholder="username" value={formValue.username} onChange={handleChange}/>
+                <input type="text" name="password" placeholder="password" value={formValue.password} onChange={handleChange}/>
+                <button type="submit">submit</button>
+            </form>
         )
     }else if(display==='signup'){
         return(
-            <Form onSubmit={e => submitForm(e)}>
-              <FormGroup>
-              <Col>
-              <Label>Signup</Label>
-              <Input
-                type="text"
-                name="username"
-                placeholder="username"
-                value={formValue.username}
-                onChange={handleChange}
-              />
-              </Col>
-              </FormGroup>
-              <FormGroup>
-              <Col>
-              <Input
-                type="text"
-                name="email"
-                placeholder="email"
-                value={formValue.email}
-                onChange={handleChange}
-              />
-              </Col>
-              </FormGroup>
-              <FormGroup>
-              <Col>
-              <Input
-                type="password"
-                name="password"
-                placeholder="password"
-                value={formValue.password}
-                onChange={handleChange}
-              />
-              </Col>
-              </FormGroup>
-              <FormGroup>
-              <Col>
-              <Input type="submit" />
-              </Col>
-              </FormGroup>
-            </Form>
+            <form onsubmit={e => submitForm(e)}>
+                <input type="text" name="username" placeholder="username" value={formValue.username} onChange={handleChange}/>
+                <input type="text" name="email" placeholder="email" value={formValue.email} onChange={handleChange} />
+                <input type="text" name="password" placeholder="password" value={formValue.password} onChange={handleChange}/>
+                <input type="submit" />
+            </form>
         )
     }else{
         return null

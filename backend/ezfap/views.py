@@ -48,9 +48,10 @@ catchall_prod = TemplateView.as_view(template_name='index.html')
 catchall = catchall_dev if settings.DEBUG else catchall_prod
 
 
-'''WEIGHT'''
+last_month = datetime.datetime.today() - datetime.timedelta(days=30) #Basically get the latest month's data. (filter gte)
 
-last_month = datetime.datetime.today() - datetime.timedelta(days=30)
+
+'''WEIGHT'''
 
 @ensure_csrf_cookie
 @api_view(['GET', 'POST'])
@@ -82,7 +83,7 @@ def weight_list(request):
 @api_view(['GET', 'POST'])
 def food_list(request):
     if request.method == 'GET':
-        data = Food.objects.filter(user=request.user)
+        data = Food.objects.filter(user=request.user, date__gte=last_month) # maybe get 1 week food list
         serializer = FoodSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':

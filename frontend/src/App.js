@@ -1,20 +1,19 @@
-import React, { Fragment } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-
-import './App.css';
-
 import {Auth} from './components/Auth';
-import {Weight} from  './components/Weight';
-import {Food} from  './components/Food';
+import {Food} from './components/Food';
+import {Example} from './components/Practice';
 
+import './style.css';
 
 function App() {
   return (
-    <Fragment>
-      <Auth />
-      <Weight />
-      <Food />
-    </Fragment>
+    <div className="App">
+      <div className="component-left">
+        <Auth />
+      </div>
+      <div className="component-right">
+        <Food />
+      </div>
+    </div>
   );
 }
 
