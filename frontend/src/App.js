@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {Auth} from './components/Auth';
 import {Food} from './components/Food';
 import {Example} from './components/Practice';
