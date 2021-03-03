@@ -39,24 +39,24 @@ const FoodTable = ({foods}) => {
     }
 
     if(tableSwitch){
-        let foodtable = foods.map(
-            food => {
-                let cal = food.protein*4 + food.fat*9 + food.carbon*4
-                return <tr><td>{food.date}</td><td>{food.menu}</td><td>{food.protein}</td><td>{food.fat}</td><td>{food.carbon}</td><td>{food.fiber}</td><td>{cal}</td></tr>}
-            )
+        let foodtable = WeekStrings.map(DateString => {
+            let foodlist = ''
+            foods.filter(food => food.date === DateString).forEach(food => foodlist += food.menu + ' ')
+            return <tr><td>{DateString}</td><td>{foodlist}</td></tr>
+        })
         return (
             <div>
                 <div>
                     <table>
-                        <tr><th>date</th><th>menu</th><th>protein</th><th>fat</th><th>carbon</th><th>fiber</th><th>Calorie</th></tr>
+                        <tr><th>date</th><th className="flex">menu</th></tr>
                         {foodtable}
                     </table>
                 </div>
-                <div onClick={toggle}>close logs</div>
+                <div style={{marginLeft: "14px"}} onClick={toggle}>close logs</div>
             </div>
         )
     }else{
-        return <div onClick={toggle}>show logs</div>
+        return <div style={{marginLeft: "14px"}} onClick={toggle}>show logs</div>
     }
 }
 
@@ -82,7 +82,6 @@ const FoodView = ({foods}) => {
         }
     )
 
-    console.log(weeklyNtr)
     if(renderFlag){
         return (
             <div>
@@ -134,10 +133,10 @@ const Plot = ({width, p, f, c, fib, cal, crosshair, set, colors}) =>
             color={colors[0]}
             opacity={0.9}
             />
-        <LineMarkSeries data={fib} color={colors[1]}/>
-        <LineMarkSeries data={c} color={colors[2]}/>
-        <LineMarkSeries data={p} color={colors[3]}/>
-        <LineMarkSeries data={f} color={colors[4]}/>
+        <LineMarkSeries data={fib} color={colors[4]}/>
+        <LineMarkSeries data={c} color={colors[3]}/>
+        <LineMarkSeries data={p} color={colors[1]}/>
+        <LineMarkSeries data={f} color={colors[2]}/>
         <Crosshair 
             values = {crosshair}
             titleFormat = {(d) => ({title: d[0].x, value: d[4].y + 'Kcal'})}

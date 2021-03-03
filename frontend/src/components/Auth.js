@@ -35,7 +35,7 @@ export const Auth = () => {
 
     return (
         <div>
-            <legend>EZFIT</legend>
+            <legend style={{margin: "14px 0"}}>EZFIT</legend>
             <p>{logged_in ? ` @${username}` : ''}</p>
             <LoginSignupForm display={display} handler={handleLoginSignup} />
             <Navi

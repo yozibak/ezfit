@@ -33,3 +33,23 @@ button{
     border:solid 1px #ccc;
     margin: 10px;
 }
+
+tr{
+    border-bottom: solid 1px #ccc;
+}
+
+td{
+    width: 125px;
+}
+
+th.flex{
+    width:800px;
+}
+
+table{
+    margin-left: 14px;
+    margin-top: 14px;
+    border: solid 1px #ccc;
+    text-align: center;
+    border-collapse: collapse; 
+}
