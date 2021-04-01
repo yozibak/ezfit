@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import {token} from "../constants/axiosDefault"
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import {SLEEP_URL} from '../constants'
 
 import PropTypes from 'prop-types';
