@@ -22,13 +22,19 @@ export const Food = () => {
         })
     }
 
-    return (
-        <div>
-            <FoodView foods={foods} />
-            <FoodInput getFoods={getFoods} foods={foods} />
-            <FoodTable foods={foods} /> 
-        </div>  
-    )
+    if(token()){
+        return (
+            <div>
+                <FoodView foods={foods} />
+                <FoodInput getFoods={getFoods} foods={foods} />
+                <FoodTable foods={foods} /> 
+            </div>
+        )
+    }else{
+        return <div style={{textAlign: 'center'}}>not logged in</div>
+    }
+
+
 }
 
 const FoodTable = ({foods}) => {
@@ -84,12 +90,12 @@ const FoodView = ({foods}) => {
 
     if(renderFlag){
         return (
-            <div>
+            <div className="sp-none">
                 <FoodGraph weeklyData={weeklyNtr} />
             </div>
         )
     }else{
-        return <div>loading</div>
+        return <div className="sp-none">loading</div>
     }
 }
 
@@ -139,10 +145,10 @@ const Plot = ({width, p, f, c, fib, cal, crosshair, set, colors}) =>
         <LineMarkSeries data={f} color={colors[2]}/>
         <Crosshair 
             values = {crosshair}
-            titleFormat = {(d) => ({title: d[0].x, value: d[4].y + 'Kcal'})}
+            titleFormat = {(d) => ({title: d[0].x, value: Math.round(d[4].y) + 'Kcal'})}
             itemsFormat = {(d) => ([
-                    {title: 'Protein', value: d[0].y/4},{title: 'Fat', value: d[1].y/9}, {title: 'Carbon', value: d[2].y/4}, 
-                    {title: 'Fiber', value: d[3].y/10}
+                    {title: 'Protein', value: Math.round(d[0].y/4)},{title: 'Fat', value: Math.round(d[1].y/9)}, {title: 'Carbon', value: Math.round(d[2].y/4)}, 
+                    {title: 'Fiber', value: Math.round(d[3].y/10)}
                 ])}
         />
     </XYPlot>

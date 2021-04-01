@@ -1,0 +1,37 @@
+
+POST http://localhost:8000/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "kats",
+    "password": "paxx4dja"
+}
+
+
+################################
+
+GET http://127.0.0.1:8000/api/articles/
+Authorization: Token fcde7aa87533f120b22dadea0514b9311debf898
+
+################################
+
+POST http://127.0.0.1:8000/api/sleep/ 
+Content-Type: application/json
+Authorization: Token 7526c3cb18e91fca43794e89d522d196e46db4dc82957874b2bdde70266a8366
+
+{
+    "bedin": "00:00"
+}
+
+
+################################
+
+{
+  "user": {
+    "id": 8,
+    "username": "fuckingtest",
+    "email": "ftes@example.com"
+  },
+  "token": "70057e7cd7375574ab9feda1c1231956869ec27f9f03fcd9ff0b59df9b6149d8"
+}
+

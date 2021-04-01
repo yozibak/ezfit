@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework import permissions
 
-from .models import Weight, Food
+from .models import Weight, Food, Sleep
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -20,6 +20,12 @@ class FoodSerializer(serializers.ModelSerializer):
         model = Food
         fields = ['pk', 'menu', 'date', 'protein', 'fat', 'carbon', 'fiber', 'user']
 
+class SleepSerializer(serializers.ModelSerializer):
+    permission_classes = [permissions.IsAuthenticated]
+
+    class Meta:
+        model = Sleep
+        fields = ['pk', 'user', 'wakeup', 'bedin', 'date']
 
 '''USER'''
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from .models import Weight, Food
-from .serializers import WeightSerializer, FoodSerializer, UserSerializer, RegisterSerializer, LoginSerializer
+from .models import Weight, Food, Sleep
+from .serializers import WeightSerializer, FoodSerializer, UserSerializer, RegisterSerializer, LoginSerializer, SleepSerializer
 from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -93,6 +93,22 @@ def food_list(request):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED) 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def sleep_track(request):
+    if request.method == 'GET':
+        data = Sleep.objects.filter(user=request.user, date__gte=last_month)
+        serializer = SleepSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        request.data["user"] = request.user.id
+        serializer = SleepSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 '''USER'''

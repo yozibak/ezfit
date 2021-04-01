@@ -30,3 +30,17 @@ class Food(models.Model):
 
     def __str__(self):
         return str(self.date) + self.menu
+
+class Sleep(models.Model):
+    date = models.DateField(auto_now_add=True, null=True)
+    wakeup = models.TimeField(auto_now_add=True)
+    bedin = models.TimeField(null=True, blank=True)
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return str(self.wakeup)

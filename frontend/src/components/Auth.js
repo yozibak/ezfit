@@ -19,9 +19,12 @@ export const Auth = () => {
         axios.post(api, JSON.stringify(data), reqhead)
         .then(res =>{
             localStorage.setItem('token', res.data.token)
-            setLoggedIn(true)
             setUsername(res.data.user.username)
-            setDisplay('')
+            console.log(username)
+            if(username){
+                setLoggedIn(true)
+                setDisplay('')
+            }
             window.location.reload()
         })
     }
@@ -62,12 +65,12 @@ const Navi = props => {
         </div>
       )
     
-      const logged_in_nav = (
+    const logged_in_nav = (
         <div id="logged-in-nav">
           <div className="btn" role="button" onClick={props.handleLogout}>logout</div>
         </div>
       )
-      return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;   
+    return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>
 }
 
 
@@ -98,21 +101,25 @@ const LoginSignupForm = ({display, handler}) => {
     }
     
     if(display==='login'){
-        return(            
-            <form onSubmit={e => submitForm(e)}>
-                <input type="text" name="username" placeholder="username" value={formValue.username} onChange={handleChange}/>
-                <input type="text" name="password" placeholder="password" value={formValue.password} onChange={handleChange}/>
-                <button type="submit">submit</button>
-            </form>
+        return(
+            <div className="modal">
+                <form className="modal-content" onSubmit={e => submitForm(e)}>
+                    <input type="text" name="username" placeholder="username" value={formValue.username} onChange={handleChange}/>
+                    <input type="text" name="password" placeholder="password" value={formValue.password} onChange={handleChange}/>
+                    <button type="submit">submit</button>
+                </form>
+            </div>
         )
     }else if(display==='signup'){
         return(
-            <form onsubmit={e => submitForm(e)}>
-                <input type="text" name="username" placeholder="username" value={formValue.username} onChange={handleChange}/>
-                <input type="text" name="email" placeholder="email" value={formValue.email} onChange={handleChange} />
-                <input type="text" name="password" placeholder="password" value={formValue.password} onChange={handleChange}/>
-                <input type="submit" />
-            </form>
+            <div className="modal">
+                <form className="modal-content" onsubmit={e => submitForm(e)}>
+                    <input type="text" name="username" placeholder="username" value={formValue.username} onChange={handleChange}/>
+                    <input type="text" name="email" placeholder="email" value={formValue.email} onChange={handleChange} />
+                    <input type="text" name="password" placeholder="password" value={formValue.password} onChange={handleChange}/>
+                    <input type="submit" />
+                </form>
+            </div>
         )
     }else{
         return null

@@ -1,8 +1,6 @@
 import React from 'react';
-
+import {Ezfit} from './components/Ezfit';
 import {Auth} from './components/Auth';
-import {Food} from './components/Food';
-import {Example} from './components/Practice';
 
 import './style.css';
 
@@ -13,7 +11,7 @@ function App() {
         <Auth />
       </div>
       <div className="component-right">
-        <Food />
+        <Ezfit />
       </div>
     </div>
   );
