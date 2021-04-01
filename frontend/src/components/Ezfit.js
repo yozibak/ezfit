@@ -1,6 +1,6 @@
 import {Food} from './Food';
 import {Sleep} from './Sleep';
-import {useState} from 'react';
+import React, {useState} from 'react';
 
 export const Ezfit = () => {
     const [mode, setMode] = useState('food')
